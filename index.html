@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculateur de Coûts & Factures - حاسبة التكلفة والفواتير</title>
+
+<!-- Google Fonts: Cairo, Tajawal, Lateef, Amiri -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@600;700;800;900&family=Lateef:wght@400;700&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+<!-- Chart.js & html2pdf & html2canvas -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<!-- Firebase SDKs (v9 Compat) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<style>
+  :root {
+    --bg-main: radial-gradient(900px 500px at 15% -10%, rgba(255,122,48,.08), transparent 55%), linear-gradient(180deg, #171513, #0f0e0c 60%);
+    --iron-dark: #171513; --iron-mid: #232019; --iron-panel: #2a2621; --steel: #a9a49a; --steel-dim: #7d786f;
+    --ember: #ff7a30; --ember-bright: #ffb066; --parchment: #eee8dd; --line: rgba(255,176,102,.18);
+    --input-bg: rgba(0,0,0,.28); --plate-bg: linear-gradient(180deg, #302b24, #1e1b17); --card-bg: linear-gradient(160deg, #2a2621, #232019);
+    --app-font: 'Tajawal', sans-serif;
+  }
+
+  [data-theme="bronze"] {
+    --bg-main: linear-gradient(180deg, #2d1e18, #18100c); --iron-dark: #18100c; --iron-mid: #241812; --iron-panel: #332219;
+    --steel: #c5a898; --steel-dim: #8c7365; --ember: #d97724; --ember-bright: #f2a65a; --parchment: #f7ebe1;
+    --line: rgba(242,166,90,.2); --input-bg: rgba(0,0,0,.35); --plate-bg: linear-gradient(180deg, #422a1f, #241812); --card-bg: linear-gradient(160deg, #332219, #241812);
+  }
+
+  [data-theme="blue"] {
+    --bg-main: linear-gradient(180deg, #0f172a, #090d16); --iron-dark: #090d16; --iron-mid: #111827; --iron-panel: #1e293b;
+    --steel: #94a3b8; --steel-dim: #64748b; --ember: #38bdf8; --ember-bright: #7dd3fc; --parchment: #f1f5f9;
+    --line: rgba(56,189,248,.2); --input-bg: rgba(15,23,42,.6); --plate-bg: linear-gradient(180deg, #1e293b, #0f172a); --card-bg: linear-gradient(160deg, #1e293b, #111827);
+  }
+
+  [data-theme="nature"] {
+    --bg-main: linear-gradient(180deg, #132a13, #091409); --iron-dark: #091409; --iron-mid: #142414; --iron-panel: #1f3a1f;
+    --steel: #a3b18a; --steel-dim: #588157; --ember: #52b788; --ember-bright: #74c69d; --parchment: #ecf39e;
+    --line: rgba(116, 198, 157, 0.25); --input-bg: rgba(0, 0, 0, 0.35); --plate-bg: linear-gradient(180deg, #1f3a1f, #091409); --card-bg: linear-gradient(160deg, #1f3a1f, #142414);
+  }
+
+  [data-theme="light"] {
+    --bg-main: linear-gradient(180deg, #f8fafc, #e2e8f0); --iron-dark: #ffffff; --iron-mid: #f1f5f9; --iron-panel: #ffffff;
+    --steel: #475569; --steel-dim: #94a3b8; --ember: #0284c7; --ember-bright: #0369a1; --parchment: #0f172a;
+    --line: rgba(2, 132, 199, 0.2); --input-bg: #ffffff; --plate-bg: linear-gradient(180deg, #ffffff, #e2e8f0); --card-bg: #ffffff;
+  }
+
+  [data-theme="space"] {
+    --bg-main: linear-gradient(180deg, #18191c, #0c0d0e); --iron-dark: #0c0d0e; --iron-mid: #121315; --iron-panel: #222428;
+    --steel: #9ca3af; --steel-dim: #6b7280; --ember: #94a3b8; --ember-bright: #e2e8f0; --parchment: #f9fafb;
+    --line: rgba(148, 163, 184, 0.25); --input-bg: rgba(0,0,0,0.35); --plate-bg: linear-gradient(180deg, #222428, #0c0d0e); --card-bg: linear-gradient(160deg, #222428, #121315);
+  }
+
+  [data-theme="emerald"] {
+    --bg-main: radial-gradient(900px 500px at 85% -10%, rgba(16,185,129,.14), transparent 55%), linear-gradient(180deg, #06251f, #031512 60%);
+    --iron-dark: #031512; --iron-mid: #08241f; --iron-panel: #0d3229;
+    --steel: #a7c7bf; --steel-dim: #6f948b; --ember: #10b981; --ember-bright: #6ee7b7; --parchment: #ecfdf5;
+    --line: rgba(110,231,183,.22); --input-bg: rgba(0,0,0,.28);
+    --plate-bg: linear-gradient(180deg, #10382f, #06251f); --card-bg: linear-gradient(160deg, #0d3229, #08241f);
+  }
+
+  [data-theme="crimson"] {
+    --bg-main: radial-gradient(900px 500px at 15% -10%, rgba(239,68,68,.14), transparent 55%), linear-gradient(180deg, #2a0c11, #120609 60%);
+    --iron-dark: #120609; --iron-mid: #1d0a0f; --iron-panel: #2b1017;
+    --steel: #d2a7ae; --steel-dim: #9f6f79; --ember: #ef4444; --ember-bright: #fca5a5; --parchment: #fff1f2;
+    --line: rgba(252,165,165,.22); --input-bg: rgba(0,0,0,.30);
+    --plate-bg: linear-gradient(180deg, #3a141c, #210b11); --card-bg: linear-gradient(160deg, #2b1017, #1d0a0f);
+  }
+
+  [data-theme="violet"] {
+    --bg-main: radial-gradient(900px 500px at 80% -10%, rgba(168,85,247,.16), transparent 55%), linear-gradient(180deg, #1b1230, #0d0818 60%);
+    --iron-dark: #0d0818; --iron-mid: #160d24; --iron-panel: #24143a;
+    --steel: #c6b6d9; --steel-dim: #8f7aa8; --ember: #a855f7; --ember-bright: #d8b4fe; --parchment: #faf5ff;
+    --line: rgba(216,180,254,.22); --input-bg: rgba(5,0,12,.35);
+    --plate-bg: linear-gradient(180deg, #2b1845, #170d27); --card-bg: linear-gradient(160deg, #24143a, #160d24);
+  }
+
+  [data-theme="sunset"] {
+    --bg-main: radial-gradient(900px 500px at 50% -10%, rgba(251,146,60,.18), transparent 55%), linear-gradient(180deg, #2a1308, #120805 60%);
+    --iron-dark: #120805; --iron-mid: #1d0e08; --iron-panel: #2e170c;
+    --steel: #d5b9a2; --steel-dim: #a48167; --ember: #f97316; --ember-bright: #fdba74; --parchment: #fff7ed;
+    --line: rgba(253,186,116,.23); --input-bg: rgba(0,0,0,.30);
+    --plate-bg: linear-gradient(180deg, #3a1d0f, #210d07); --card-bg: linear-gradient(160deg, #2e170c, #1d0e08);
+  }
+
+  [data-theme="aqua"] {
+    --bg-main: radial-gradient(900px 500px at 20% -10%, rgba(34,211,238,.15), transparent 55%), linear-gradient(180deg, #07252b, #031317 60%);
+    --iron-dark: #031317; --iron-mid: #062028; --iron-panel: #0b3039;
+    --steel: #a8cbd1; --steel-dim: #6d9aa3; --ember: #06b6d4; --ember-bright: #67e8f9; --parchment: #ecfeff;
+    --line: rgba(103,232,249,.23); --input-bg: rgba(0,0,0,.28);
+    --plate-bg: linear-gradient(180deg, #0f3b46, #06232a); --card-bg: linear-gradient(160deg, #0b3039, #062028);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    min-height:100vh; background: var(--bg-main); color:var(--parchment); font-family: var(--app-font);
+    padding-bottom:60px; transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  body.font-tajawal { font-family: 'Tajawal', sans-serif; }
+  body.font-cairo { font-family: 'Cairo', sans-serif; }
+  body.font-lateef { font-family: 'Lateef', cursive; font-size: 1.15rem; }
+  body.font-amiri { font-family: 'Amiri', serif; font-size: 1.05rem; }
+
+  .grid-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 12px; }
+  .visual-card {
+    background: var(--input-bg); border: 2px solid var(--line); border-radius: 10px; padding: 12px 6px; text-align: center;
+    cursor: pointer; transition: all 0.25s ease; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .visual-card:hover { border-color: var(--ember); transform: translateY(-2px); }
+  .visual-card.active { border-color: var(--ember-bright); background: rgba(255,122,48,0.15); box-shadow: 0 0 10px rgba(255,122,48,0.25); }
+  .visual-card svg { width: 32px; height: 32px; fill: none; stroke: var(--ember-bright); stroke-width: 2; }
+  .visual-card span { font-size: 12.5px; font-weight: 700; }
+
+  #splashScreen {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at center, #1f242d 0%, #090a0f 100%);
+    z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 24px; text-align: center; transition: opacity 0.8s ease, visibility 0.8s ease;
+  }
+  #splashScreen.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+  .splash-anvil-svg { width: 120px; height: 120px; margin-bottom: 20px; filter: drop-shadow(0 0 25px rgba(255,122,48,0.6)); animation: pulse 2s infinite ease-in-out; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+  .splash-title { font-size: 26px; font-weight: 900; color: #ffffff; margin: 0 0 8px; }
+  .splash-progress-bar { width: 240px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-top: 25px; overflow: hidden; }
+  .splash-progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--ember), var(--ember-bright)); animation: fillProgress 3s linear forwards; }
+  @keyframes fillProgress { from { width: 0%; } to { width: 100%; } }
+  .splash-skip { margin-top: 15px; background: transparent; border: 1px solid var(--line); color: var(--steel); padding: 5px 15px; border-radius: 20px; font-size: 12px; cursor: pointer; }
+
+  #loginOverlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--iron-dark); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .login-card { background: var(--iron-panel); border: 1px solid var(--ember); border-radius: 12px; padding: 24px; width: 100%; max-width: 380px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+
+  .plate{ position:relative; background: var(--plate-bg); border-bottom:3px solid var(--ember); padding:22px 18px 18px; text-align:center; }
+  .plate h1{ font-weight:800; font-size:25px; margin:6px 0 2px; color:var(--parchment); }
+  .plate .sub{ color:var(--steel); font-size:13px; }
+
+  .top-controls { display: flex; justify-content: space-between; align-items: center; padding: 8px 14px; background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--line); flex-wrap: wrap; gap: 8px; }
+  .control-group { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; font-size: 12px; color: var(--steel); }
+  .control-btn { border: 1px solid var(--line); background: transparent; color: var(--parchment); padding: 4px 8px; border-radius: 12px; font-size: 11px; cursor: pointer; }
+  .control-btn.active { background: var(--ember); color: #ffffff; border-color: var(--ember-bright); font-weight: 700; }
+  .lang-btn { background: var(--iron-panel); border: 1px solid var(--ember); color: var(--ember-bright); padding: 4px 12px; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 12px; }
+
+  .tabs{ display:flex; gap:6px; overflow-x:auto; padding:12px 12px; border-bottom:1px solid var(--line); background:var(--iron-mid); position:sticky; top:0; z-index:50; }
+  .tab-btn{ flex:0 0 auto; background:transparent; border:1px solid rgba(169,164,154,.25); color:var(--steel); padding:8px 13px; border-radius:8px; font-size:13px; font-weight:700; cursor:pointer; }
+  .tab-btn.active{ background:linear-gradient(180deg, var(--ember-bright), var(--ember)); color:#ffffff; border-color:transparent; }
+
+  .wrap{ max-width:880px; margin:0 auto; padding:18px 14px 0; }
+  .page{ display:none; }
+  .page.active{ display:block; animation:fade .35s ease; }
+  @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+  .card{ background: var(--card-bg); border:1px solid var(--line); border-radius:12px; padding:18px; margin-bottom:16px; }
+  .card h2{ font-size:16.5px; margin:0 0 14px; color:var(--ember-bright); display:flex; align-items:center; justify-content:space-between; gap:8px; border-bottom:1px dashed var(--line); padding-bottom:10px; }
+
+  .row{ display:flex; gap:12px; flex-wrap:wrap; }
+  .field{ flex:1; min-width:140px; margin-bottom:12px; }
+  .field.full{ flex-basis:100%; }
+  label{ display:flex; align-items:center; gap:5px; font-size:12.5px; color:var(--steel); margin-bottom:5px; }
+  select, input[type=number], input[type=text], input[type=password], input[type=date], textarea{ width:100%; padding:9px 11px; border-radius:8px; border:1px solid rgba(169,164,154,.3); background: var(--input-bg); color:var(--parchment); font-size:14.5px; }
+
+  button{ cursor:pointer; border:none; border-radius:8px; font-weight:700; font-size:14px; padding:10px 16px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .btn-primary{ background:linear-gradient(180deg, var(--ember-bright), var(--ember)); color:#ffffff; width:100%; }
+  .btn-ghost{ background:transparent; border:1px solid var(--ember); color:var(--ember-bright); }
+  .btn-export{ background: #1f293b; border: 1px solid var(--line); color: var(--parchment); padding: 6px 12px; font-size: 12px; border-radius: 6px; }
+
+  .preview{ background: var(--input-bg); border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-top:8px; }
+  .preview .line{ display:flex; justify-content:space-between; font-size:14px; padding:6px 0; border-bottom:1px dashed rgba(169,164,154,.15); }
+  .preview .line.total{ border-bottom:none; margin-top:6px; padding-top:12px; border-top:1px solid var(--line); font-size:17px; font-weight:800; color:var(--ember-bright); }
+
+  .diagram-container { width: 100%; background: var(--input-bg); border: 1px solid var(--line); border-radius: 10px; padding: 15px; text-align: center; margin-bottom: 15px; }
+  canvas#itemDiagram { background: rgba(0,0,0,0.25); border-radius: 8px; border: 1px solid var(--line); max-width: 100%; box-shadow: inset 0 0 20px rgba(0,0,0,0.5); }
+
+  .calc-container { max-width: 400px; margin: 0 auto; background: var(--input-bg); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+  .calc-screen { width: 100%; height: 50px; background: rgba(0,0,0,0.5); border: 1px solid var(--line); border-radius: 8px; font-size: 22px; font-weight: bold; color: var(--ember-bright); text-align: left; padding: 10px; margin-bottom: 12px; direction: ltr; }
+  .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .calc-btn { height: 45px; font-size: 16px; font-weight: bold; background: var(--iron-panel); color: var(--parchment); border: 1px solid var(--line); border-radius: 6px; }
+  .calc-btn.op { background: rgba(255,122,48,0.2); color: var(--ember-bright); }
+
+  .charts-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .chart-box { background: var(--input-bg); border: 1px solid var(--line); border-radius: 12px; padding: 16px; min-height: 320px; position: relative; }
+
+  .toast{ position:fixed; bottom:18px; left:50%; transform:translateX(-50%); background:var(--iron-panel); border:1px solid var(--ember); color:var(--parchment); padding:10px 18px; border-radius:20px; font-size:13px; z-index:200; opacity:0; pointer-events:none; transition:all .25s ease; }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(-6px); }
+
+  .sync-badge { font-size: 11px; padding: 3px 8px; border-radius: 10px; background: rgba(255,255,255,0.1); }
+  .sync-badge.online { background: rgba(74, 222, 128, 0.2); color: #4ade80; border: 1px solid #4ade80; }
+
+  footer{ text-align:center; color:var(--steel-dim); font-size:12px; margin-top:30px; direction: ltr; }
+</style>
+</head>
+<body class="font-tajawal">
+
+<!-- SPLASH SCREEN -->
+<div id="splashScreen">
+  <svg class="splash-anvil-svg" viewBox="0 0 64 64" fill="none">
+    <path d="M12 36C12 36 16 34 22 34H42C50 34 54 38 56 40H8C10 38 12 36 12 36Z" fill="#ff7a30"/>
+    <path d="M14 40H50L46 52H18L14 40Z" fill="#a9a49a"/>
+    <path d="M10 52H54V56H10V52Z" fill="#7d786f"/>
+    <path d="M38 12L48 22L44 26L34 16L38 12Z" fill="#ffb066"/>
+    <path d="M22 32L36 18L32 14L18 28L22 32Z" fill="#7d786f"/>
+  </svg>
+  <div class="splash-title" data-i18n="app_title">⚒️ حاسبة التكلفة والفواتير</div>
+  <div class="splash-progress-bar"><div class="splash-progress-fill"></div></div>
+  <button class="splash-skip" onclick="closeSplashScreen()" data-i18n="skip">تخطي الانتظار ➔</button>
+</div>
+
+<!-- LOGIN OVERLAY -->
+<div id="loginOverlay">
+  <div class="login-card">
+    <h2 style="color:var(--ember-bright); margin-top:0;" data-i18n="login_head">🔐 تسجيل الدخول</h2>
+    <div class="field"><label data-i18n="username">👤 اسم المستخدم</label><input type="text" id="loginUser" value="ramzi"></div>
+    <div class="field"><label data-i18n="password">🔑 كلمة المرور</label><input type="password" id="loginPass" value="123456789"></div>
+    <button class="btn-primary" style="margin-top:10px;" onclick="checkLogin()" data-i18n="login_btn">🔓 دخول</button>
+  </div>
+</div>
+
+<div class="plate">
+  <h1 data-i18n="app_title">⚒️ حاسبة التكلفة والفواتير</h1>
+  <div class="sub" data-i18n="app_subtitle">مادة خام • يد عاملة • دهن • فواتير • رسم بياني</div>
+</div>
+
+<div class="top-controls">
+  <div class="control-group">
+    <span data-i18n="themes">🎨 الثيمات:</span>
+    <button class="control-btn active" id="btn-theme-dark" onclick="switchTheme('dark')">⚙️ داكن</button>
+    <button class="control-btn" id="btn-theme-bronze" onclick="switchTheme('bronze')">🔥 برونزي</button>
+    <button class="control-btn" id="btn-theme-blue" onclick="switchTheme('blue')">⚡ فولاذي</button>
+    <button class="control-btn" id="btn-theme-nature" onclick="switchTheme('nature')">🌿 طبيعة</button>
+    <button class="control-btn" id="btn-theme-light" onclick="switchTheme('light')">☀️ نهار</button>
+    <button class="control-btn" id="btn-theme-space" onclick="switchTheme('space')">⚙️ رمادي</button>
+    <button class="control-btn" id="btn-theme-emerald" onclick="switchTheme('emerald')">💎 زمردي</button>
+    <button class="control-btn" id="btn-theme-crimson" onclick="switchTheme('crimson')">❤️ قرمزي</button>
+    <button class="control-btn" id="btn-theme-violet" onclick="switchTheme('violet')">🔮 بنفسجي</button>
+    <button class="control-btn" id="btn-theme-sunset" onclick="switchTheme('sunset')">🌅 غروب</button>
+    <button class="control-btn" id="btn-theme-aqua" onclick="switchTheme('aqua')">🌊 أكوا</button>
+  </div>
+
+  <div class="control-group">
+    <span data-i18n="fonts_label">🔤 الخط:</span>
+    <button class="control-btn active" id="btn-font-tajawal" onclick="switchFont('tajawal')">Tajawal</button>
+    <button class="control-btn" id="btn-font-cairo" onclick="switchFont('cairo')">Cairo</button>
+    <button class="control-btn" id="btn-font-lateef" onclick="switchFont('lateef')">اللطيف</button>
+    <button class="control-btn" id="btn-font-amiri" onclick="switchFont('amiri')">الأميري</button>
+  </div>
+
+  <div style="display:flex; align-items:center; gap:8px;">
+    <span id="syncStatus" class="sync-badge">☁️ جاري الاتصال...</span>
+    <button class="lang-btn" onclick="toggleLanguage()" id="langToggleBtn">🌐 Français</button>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showPage('project', event)" data-i18n="tab_project">📐 المشروع الحالي</button>
+  <button class="tab-btn" onclick="showPage('calculator', event)" data-i18n="tab_calc">🧮 الآلة الحاسبة</button>
+  <button class="tab-btn" onclick="showPage('invoices', event)" data-i18n="tab_invoices">📑 الفواتير والطلبات</button>
+  <button class="tab-btn" onclick="showPage('profits', event)" data-i18n="tab_profits">📊 الأرباح والرسوم البيانية</button>
+  <button class="tab-btn" onclick="showPage('settings', event)" data-i18n="tab_settings">⚙️ الإعدادات والنسخ الاحتياطي</button>
+</div>
+
+<div class="wrap">
+  <!-- PAGE: PROJECT -->
+  <div class="page active" id="project">
+    <div class="card">
+      <h2 data-i18n="select_model">📐 اختيار النموذج والقطع</h2>
+      <div class="grid-selector" id="presetVisualGrid"></div>
+
+      <div class="row"><div class="field full"><label data-i18n="item_name">📝 اسم القطعة</label><input type="text" id="itemName" oninput="drawItemDiagram()"></div></div>
+      <div class="row">
+        <div class="field"><label data-i18n="width">↔️ العرض (متر)</label><inpu
