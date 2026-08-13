@@ -58,46 +58,6 @@
     --line: rgba(148, 163, 184, 0.25); --input-bg: rgba(0,0,0,0.35); --plate-bg: linear-gradient(180deg, #222428, #0c0d0e); --card-bg: linear-gradient(160deg, #222428, #121315);
   }
 
-  [data-theme="emerald"] {
-    --bg-main: radial-gradient(900px 500px at 85% -10%, rgba(16,185,129,.14), transparent 55%), linear-gradient(180deg, #06251f, #031512 60%);
-    --iron-dark: #031512; --iron-mid: #08241f; --iron-panel: #0d3229;
-    --steel: #a7c7bf; --steel-dim: #6f948b; --ember: #10b981; --ember-bright: #6ee7b7; --parchment: #ecfdf5;
-    --line: rgba(110,231,183,.22); --input-bg: rgba(0,0,0,.28);
-    --plate-bg: linear-gradient(180deg, #10382f, #06251f); --card-bg: linear-gradient(160deg, #0d3229, #08241f);
-  }
-
-  [data-theme="crimson"] {
-    --bg-main: radial-gradient(900px 500px at 15% -10%, rgba(239,68,68,.14), transparent 55%), linear-gradient(180deg, #2a0c11, #120609 60%);
-    --iron-dark: #120609; --iron-mid: #1d0a0f; --iron-panel: #2b1017;
-    --steel: #d2a7ae; --steel-dim: #9f6f79; --ember: #ef4444; --ember-bright: #fca5a5; --parchment: #fff1f2;
-    --line: rgba(252,165,165,.22); --input-bg: rgba(0,0,0,.30);
-    --plate-bg: linear-gradient(180deg, #3a141c, #210b11); --card-bg: linear-gradient(160deg, #2b1017, #1d0a0f);
-  }
-
-  [data-theme="violet"] {
-    --bg-main: radial-gradient(900px 500px at 80% -10%, rgba(168,85,247,.16), transparent 55%), linear-gradient(180deg, #1b1230, #0d0818 60%);
-    --iron-dark: #0d0818; --iron-mid: #160d24; --iron-panel: #24143a;
-    --steel: #c6b6d9; --steel-dim: #8f7aa8; --ember: #a855f7; --ember-bright: #d8b4fe; --parchment: #faf5ff;
-    --line: rgba(216,180,254,.22); --input-bg: rgba(5,0,12,.35);
-    --plate-bg: linear-gradient(180deg, #2b1845, #170d27); --card-bg: linear-gradient(160deg, #24143a, #160d24);
-  }
-
-  [data-theme="sunset"] {
-    --bg-main: radial-gradient(900px 500px at 50% -10%, rgba(251,146,60,.18), transparent 55%), linear-gradient(180deg, #2a1308, #120805 60%);
-    --iron-dark: #120805; --iron-mid: #1d0e08; --iron-panel: #2e170c;
-    --steel: #d5b9a2; --steel-dim: #a48167; --ember: #f97316; --ember-bright: #fdba74; --parchment: #fff7ed;
-    --line: rgba(253,186,116,.23); --input-bg: rgba(0,0,0,.30);
-    --plate-bg: linear-gradient(180deg, #3a1d0f, #210d07); --card-bg: linear-gradient(160deg, #2e170c, #1d0e08);
-  }
-
-  [data-theme="aqua"] {
-    --bg-main: radial-gradient(900px 500px at 20% -10%, rgba(34,211,238,.15), transparent 55%), linear-gradient(180deg, #07252b, #031317 60%);
-    --iron-dark: #031317; --iron-mid: #062028; --iron-panel: #0b3039;
-    --steel: #a8cbd1; --steel-dim: #6d9aa3; --ember: #06b6d4; --ember-bright: #67e8f9; --parchment: #ecfeff;
-    --line: rgba(103,232,249,.23); --input-bg: rgba(0,0,0,.28);
-    --plate-bg: linear-gradient(180deg, #0f3b46, #06232a); --card-bg: linear-gradient(160deg, #0b3039, #062028);
-  }
-
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
@@ -237,11 +197,6 @@
     <button class="control-btn" id="btn-theme-nature" onclick="switchTheme('nature')">🌿 طبيعة</button>
     <button class="control-btn" id="btn-theme-light" onclick="switchTheme('light')">☀️ نهار</button>
     <button class="control-btn" id="btn-theme-space" onclick="switchTheme('space')">⚙️ رمادي</button>
-    <button class="control-btn" id="btn-theme-emerald" onclick="switchTheme('emerald')">💎 زمردي</button>
-    <button class="control-btn" id="btn-theme-crimson" onclick="switchTheme('crimson')">❤️ قرمزي</button>
-    <button class="control-btn" id="btn-theme-violet" onclick="switchTheme('violet')">🔮 بنفسجي</button>
-    <button class="control-btn" id="btn-theme-sunset" onclick="switchTheme('sunset')">🌅 غروب</button>
-    <button class="control-btn" id="btn-theme-aqua" onclick="switchTheme('aqua')">🌊 أكوا</button>
   </div>
 
   <div class="control-group">
@@ -275,4 +230,1076 @@
 
       <div class="row"><div class="field full"><label data-i18n="item_name">📝 اسم القطعة</label><input type="text" id="itemName" oninput="drawItemDiagram()"></div></div>
       <div class="row">
-        <div class="field"><label data-i18n="width">↔️ العرض (متر)</label><inpu
+        <div class="field"><label data-i18n="width">↔️ العرض (متر)</label><input type="number" step="0.01" id="pWidth" value="1.2" oninput="calcProject()"></div>
+        <div class="field"><label data-i18n="height">↕️ الارتفاع (متر)</label><input type="number" step="0.01" id="pHeight" value="2.0" oninput="calcProject()"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label data-i18n="h_bars">➖ قضبان أفقية</label><input type="number" id="hBars" value="2" oninput="calcProject()"></div>
+        <div class="field"><label data-i18n="v_bars">📁 قضبان عمودية</label><input type="number" id="vBars" value="3" oninput="calcProject()"></div>
+      </div>
+    </div>
+
+    <!-- VISUAL DIAGRAM CARD -->
+    <div class="card">
+      <h2 data-i18n="diagram_title">✏️ الرسم البياني الهندسي والواقعي للقطعة</h2>
+      <div class="diagram-container">
+        <canvas id="itemDiagram" width="420" height="290"></canvas>
+      </div>
+    </div>
+
+    <!-- MATERIAL SELECTOR -->
+    <div class="card">
+      <h2 data-i18n="select_material">🧱 نوع الحديد والمادة الخام</h2>
+      <select id="materialSelect" onchange="calcProject()" style="margin-bottom:12px; font-weight:bold;"></select>
+    </div>
+
+    <div class="card">
+      <h2 data-i18n="cost_preview">💰 معاينة التكلفة والتسعير</h2>
+      <div class="preview">
+        <div class="line"><span data-i18n="total_length">📏 الطول الكلي للقضبان</span><span id="pvLength">—</span></div>
+        <div class="line"><span data-i18n="est_weight">⚖️ الوزن التقديري</span><span id="pvWeight">—</span></div>
+        <div class="line"><span data-i18n="mat_cost">🪵 تكلفة المادة الخام</span><span id="pvMaterial">—</span></div>
+        <div class="line"><span data-i18n="transport_cost">🚚 تكلفة النقل</span><span id="pvTransport">—</span></div>
+        <div class="line total"><span data-i18n="total_cost">🏷️ التكلفة الإجمالية</span><span id="pvTotal">—</span></div>
+      </div>
+
+      <div class="row" style="margin-top:14px;">
+        <div class="field"><label data-i18n="margin">📈 هامش الربح (%)</label><input type="number" id="marginInput" value="30" oninput="calcProject()"></div>
+        <div class="field"><label data-i18n="sell_price">💵 سعر البيع النهائي</label><input type="number" id="sellPriceInput"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 data-i18n="client_info">👤 بيانات الزبون والحفظ</h2>
+      <div class="row">
+        <div class="field"><label data-i18n="client_name">👤 اسم الزبون</label><input type="text" id="clientName"></div>
+        <div class="field"><label data-i18n="date">📅 التاريخ</label><input type="date" id="orderDate"></div>
+      </div>
+      <button class="btn-primary" onclick="saveInvoice()" data-i18n="save_btn">💾 حفظ كفاتورة/طلب</button>
+    </div>
+  </div>
+
+  <!-- PAGE: CALCULATOR -->
+  <div class="page" id="calculator">
+    <div class="card">
+      <h2 data-i18n="tab_calc">🧮 الآلة الحاسبة الذكية</h2>
+      <div class="row" style="margin-bottom:15px;">
+        <button class="btn-ghost" style="flex:1;" onclick="switchCalcMode('normal')" data-i18n="calc_normal">🧮 آلة عادية</button>
+        <button class="btn-ghost" style="flex:1;" onclick="switchCalcMode('blacksmith')" data-i18n="calc_custom">⚒️ وضع الحداد المخصص</button>
+      </div>
+
+      <div id="calcNormalMode" class="calc-container">
+        <input type="text" id="calcDisplay" class="calc-screen" readonly value="0">
+        <div class="calc-grid">
+          <button class="calc-btn op" onclick="clearCalc()">C</button>
+          <button class="calc-btn op" onclick="appendCalc('/')">/</button>
+          <button class="calc-btn op" onclick="appendCalc('*')">*</button>
+          <button class="calc-btn op" onclick="appendCalc('-')">-</button>
+          <button class="calc-btn" onclick="appendCalc('7')">7</button>
+          <button class="calc-btn" onclick="appendCalc('8')">8</button>
+          <button class="calc-btn" onclick="appendCalc('9')">9</button>
+          <button class="calc-btn op" onclick="appendCalc('+')">+</button>
+          <button class="calc-btn" onclick="appendCalc('4')">4</button>
+          <button class="calc-btn" onclick="appendCalc('5')">5</button>
+          <button class="calc-btn" onclick="appendCalc('6')">6</button>
+          <button class="calc-btn op" onclick="runCalc()">=</button>
+          <button class="calc-btn" onclick="appendCalc('1')">1</button>
+          <button class="calc-btn" onclick="appendCalc('2')">2</button>
+          <button class="calc-btn" onclick="appendCalc('3')">3</button>
+          <button class="calc-btn" onclick="appendCalc('0')">0</button>
+        </div>
+      </div>
+
+      <div id="calcBlacksmithMode" style="display:none;">
+        <div class="card" style="background:var(--input-bg);">
+          <h3 style="font-size:15px; color:var(--ember-bright);" data-i18n="miter_title">📐 1. حساب زاوية القص (Miter Angle)</h3>
+          <div class="row">
+            <div class="field"><label data-i18n="sides_num">عدد الأضلاع للإطار</label><input type="number" id="polySides" value="4" oninput="calcMiterAngle()"></div>
+            <div class="field"><label data-i18n="angle_res">زاوية قص المنشار</label><input type="text" id="miterResult" readonly style="color:var(--ember-bright); font-weight:bold;"></div>
+          </div>
+        </div>
+
+        <div class="card" style="background:var(--input-bg);">
+          <h3 style="font-size:15px; color:var(--ember-bright);" data-i18n="spacing_title">📏 2. حساب الفواصل المتساوية بين القضبان</h3>
+          <div class="row">
+            <div class="field"><label data-i18n="total_gap">العرض الكلي (سم)</label><input type="number" id="totalGapWidth" value="100" oninput="calcSpacing()"></div>
+            <div class="field"><label data-i18n="bar_thick">سمك القضيب (سم)</label><input type="number" id="barThickness" value="2" oninput="calcSpacing()"></div>
+            <div class="field"><label data-i18n="bars_count">عدد القضبان</label><input type="number" id="numBars" value="5" oninput="calcSpacing()"></div>
+          </div>
+          <div class="preview">
+            <div class="line"><span data-i18n="spacing_res">الفراغ الصافي بين كل قضيبين:</span><span id="spacingResult" style="color:var(--ember-bright); font-weight:bold;">—</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: INVOICES -->
+  <div class="page" id="invoices">
+    <div class="card">
+      <h2 data-i18n="saved_invoices">📑 الطلبات والمستندات المحفوظة</h2>
+      <div id="invoiceList"></div>
+    </div>
+  </div>
+
+  <!-- PAGE: PROFITS -->
+  <div class="page" id="profits">
+    <div class="card">
+      <h2 data-i18n="charts_head">📊 ملخص الأرباح والرسوم البيانية</h2>
+      <div class="charts-wrapper">
+        <div class="chart-box">
+          <h3 style="font-size:14px; text-align:center; color:var(--steel);" data-i18n="chart_pie">توزيع القطع المصنعة</h3>
+          <div style="position:relative; height:240px; width:100%;"><canvas id="typeChart"></canvas></div>
+        </div>
+        <div class="chart-box">
+          <h3 style="font-size:14px; text-align:center; color:var(--steel);" data-i18n="chart_bar">المبيعات والأرباح</h3>
+          <div style="position:relative; height:240px; width:100%;"><canvas id="profitChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: SETTINGS -->
+  <div class="page" id="settings">
+    <div class="card">
+      <h2 data-i18n="tab_settings">⚙️ الإعدادات والأمان</h2>
+      <div class="row">
+        <div class="field"><label data-i18n="username">👤 اسم المستخدم</label><input type="text" id="authUsername" oninput="saveSettingsLive()"></div>
+        <div class="field"><label data-i18n="password">🔑 كلمة المرور</label><input type="text" id="authPassword" oninput="saveSettingsLive()"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label data-i18n="labor_rate">🛠️ سعر اليد العاملة (م²)</label><input type="number" id="laborRate" oninput="saveSettingsLive()"></div>
+        <div class="field"><label data-i18n="paint_rate">🎨 سعر الدهن (م²)</label><input type="number" id="paintRate" oninput="saveSettingsLive()"></div>
+        <div class="field"><label data-i18n="transport_rate">🚚 سعر النقل (بالدينار)</label><input type="number" id="transportRate" oninput="saveSettingsLive()"></div>
+        <div class="field"><label data-i18n="currency">🪙 العملة</label><input type="text" id="currencyLabel" oninput="saveSettingsLive()"></div>
+      </div>
+    </div>
+
+    <!-- JSON IMPORT / EXPORT -->
+    <div class="card">
+      <h2 data-i18n="json_section">📦 النسخ الاحتياطي للبيانات (JSON)</h2>
+      <p style="font-size:13px; color:var(--steel);" data-i18n="json_desc">يمكنك تصدير قاعدة البيانات كاملة كملف JSON للنسخ الاحتياطي أو استعادتها لاحقاً.</p>
+      <div class="row" style="margin-top:12px;">
+        <button class="btn-ghost" style="flex:1;" onclick="exportJSON()" data-i18n="json_export">📥 تصدير البيانات (JSON)</button>
+        <button class="btn-ghost" style="flex:1;" onclick="document.getElementById('importFileInput').click()" data-i18n="json_import">📤 استيراد البيانات (JSON)</button>
+        <input type="file" id="importFileInput" accept=".json" style="display:none;" onchange="importJSON(event)">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  Developpé par medianafti 2026
+</footer>
+
+<script>
+/* FIREBASE CONFIGURATION */
+const firebaseConfig = {
+  apiKey: "AIzaSyDvKPR1xr4pFKPC-yiQkvKV6GDgTys11Cg",
+  authDomain: "hdid-app-165f3.firebaseapp.com",
+  projectId: "hdid-app-165f3",
+  storageBucket: "hdid-app-165f3.appspot.com",
+  messagingSenderId: "338805370217",
+  appId: "1:338805370217:web:8c5b966edeb1e7920bb31c"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+/* DICTIONARIES (AR & FR) */
+let currentLang = 'ar';
+const i18n = {
+  ar: {
+    app_title: "⚒️ حاسبة التكلفة والفواتير",
+    app_subtitle: "مادة خام • يد عاملة • دهن • فواتير • رسم بياني",
+    themes: "🎨 الثيمات:",
+    fonts_label: "🔤 الخط:",
+    tab_project: "📐 المشروع الحالي",
+    tab_calc: "🧮 الآلة الحاسبة",
+    tab_invoices: "📑 الفواتير والطلبات",
+    tab_profits: "📊 الأرباح والرسوم البيانية",
+    tab_settings: "⚙️ الإعدادات والنسخ الاحتياطي",
+    select_model: "📐 اختيار النموذج والقطع",
+    diagram_title: "✏️ الرسم البياني الهندسي والواقعي للقطعة",
+    item_name: "📝 اسم القطعة",
+    width: "↔️ العرض (متر)",
+    height: "↕️ الارتفاع (متر)",
+    h_bars: "➖ قضبان أفقية",
+    v_bars: "📁 قضبان عمودية",
+    select_material: "🧱 نوع الحديد والمادة الخام",
+    cost_preview: "💰 معاينة التكلفة والتسعير",
+    total_length: "📏 الطول الكلي للقضبان",
+    est_weight: "⚖️ الوزن التقديري",
+    mat_cost: "🪵 تكلفة المادة الخام",
+    transport_cost: "🚚 تكلفة النقل",
+    total_cost: "🏷️ التكلفة الإجمالية",
+    margin: "📈 هامش الربح (%)",
+    sell_price: "💵 سعر البيع النهائي",
+    client_info: "👤 بيانات الزبون والحفظ",
+    client_name: "👤 اسم الزبون",
+    date: "📅 التاريخ",
+    save_btn: "💾 حفظ كفاتورة/طلب",
+    calc_normal: "🧮 آلة عادية",
+    calc_custom: "⚒️ وضع الحداد المخصص",
+    miter_title: "📐 1. حساب زاوية القص (Miter Angle)",
+    sides_num: "عدد الأضلاع للإطار",
+    angle_res: "زاوية قص المنشار",
+    spacing_title: "📏 2. حساب الفواصل المتساوية",
+    total_gap: "العرض الكلي (سم)",
+    bar_thick: "سمك القضيب (سم)",
+    bars_count: "عدد القضبان",
+    spacing_res: "الفراغ الصافي بين كل قضيبين:",
+    saved_invoices: "📑 الطلبات والمستندات المحفوظة",
+    charts_head: "📊 ملخص الأرباح والرسوم البيانية",
+    chart_pie: "توزيع القطع المصنعة",
+    chart_bar: "المبيعات والأرباح",
+    login_head: "🔐 تسجيل الدخول",
+    username: "👤 اسم المستخدم",
+    password: "🔑 كلمة المرور",
+    login_btn: "🔓 دخول",
+    labor_rate: "🛠️ سعر اليد العاملة (م²)",
+    paint_rate: "🎨 سعر الدهن (م²)",
+    transport_rate: "🚚 سعر النقل (بالدينار)",
+    currency: "🪙 العملة",
+    skip: "تخطي الانتظار ➔",
+    json_section: "📦 النسخ الاحتياطي للبيانات (JSON)",
+    json_desc: "يمكنك تصدير قاعدة البيانات كاملة كملف JSON للنسخ الاحتياطي أو استعادتها لاحقاً.",
+    json_export: "📥 تصدير البيانات (JSON)",
+    json_import: "📤 استيراد البيانات (JSON)",
+    no_invoices: "لا توجد فواتير محفوظة بعد",
+    custom_item: "مشروع مخصص",
+    doors: "أبواب",
+    windows: "شبابيك",
+    others: "أخرى",
+    login_success: "تم تسجيل الدخول بنجاح",
+    login_error: "خطأ في بيانات الدخول",
+    json_success_exp: "تم تصدير ملف JSON بنجاح!",
+    json_success_imp: "تم استيراد البيانات بنجاح!",
+    json_invalid: "ملف JSON غير صالح",
+    inv_saved: "تم حفظ الفاتورة بنجاح في Firebase!"
+  },
+  fr: {
+    app_title: "Calculateur de Coûts & Factures",
+    app_subtitle: "Matière première • Main-d'œuvre • Peinture • Schéma 2D",
+    themes: "🎨 Thèmes:",
+    fonts_label: "🔤 Police:",
+    tab_project: "📐 Projet Actuel",
+    tab_calc: "🧮 Calculatrice",
+    tab_invoices: "📑 Factures & Commandes",
+    tab_profits: "📊 Bénéfices & Graphiques",
+    tab_settings: "⚙️ Paramètres & Sauvegarde",
+    select_model: "📐 Choix du Modèle & Pièces",
+    diagram_title: "✏️ Schéma Technique & Dimensions",
+    item_name: "📝 Nom du produit / pièce",
+    width: "↔️ Largeur (Mètre)",
+    height: "↕️ Hauteur (Mètre)",
+    h_bars: "➖ Barres Horizontales",
+    v_bars: "📁 Barres Verticales",
+    select_material: "🧱 Type de Fer & Matériau",
+    cost_preview: "💰 Aperçu du Coût & Prix",
+    total_length: "📏 Longueur Totale des Barres",
+    est_weight: "⚖️ Poids Estimé",
+    mat_cost: "🪵 Coût du Matériau",
+    transport_cost: "🚚 Frais de Livraison / Transport",
+    total_cost: "🏷️ Coût de Revient Total",
+    margin: "📈 Marge Beneficiaire (%)",
+    sell_price: "💵 Prix de Vente Final",
+    client_info: "👤 Informations Client & Enregistrement",
+    client_name: "👤 Nom du Client",
+    date: "📅 Date d'émission",
+    save_btn: "💾 Enregistrer la Facture / Commande",
+    calc_normal: "🧮 Calculatrice Standard",
+    calc_custom: "⚒️ Mode Forge & Métallurgie",
+    miter_title: "📐 1. Calcul d'Angle d'Onglet (Coupe)",
+    sides_num: "Nombre de côtés du cadre",
+    angle_res: "Angle de coupe de scie",
+    spacing_title: "📏 2. Espacement Régulier des Barres",
+    total_gap: "Largeur Totale (cm)",
+    bar_thick: "Épaisseur de Barre (cm)",
+    bars_count: "Nombre de barres",
+    spacing_res: "Espace net entre barres:",
+    saved_invoices: "📑 Registre des Factures Enregistrées",
+    charts_head: "📊 Analyse des Bénéfices & Ventes",
+    chart_pie: "Répartition des Ouvrages",
+    chart_bar: "Historique des Ventes & Marge",
+    login_head: "🔐 Connexion Sécurisée",
+    username: "👤 Nom d'utilisateur",
+    password: "🔑 Mot de passe",
+    login_btn: "🔓 Se Connecter",
+    labor_rate: "🛠️ Main-d'œuvre (par m²)",
+    paint_rate: "🎨 Peinture & Finition (par m²)",
+    transport_rate: "🚚 Transport / Livraison (Dinar)",
+    currency: "🪙 Devise / Monnaie",
+    skip: "Passer l'attente ➔",
+    json_section: "📦 Sauvegarde globale des données (JSON)",
+    json_desc: "Exportez ou importez l'intégralité de vos données au format JSON.",
+    json_export: "📥 Exporter Sauvegarde (JSON)",
+    json_import: "📤 Importer Sauvegarde (JSON)",
+    no_invoices: "Aucune facture enregistrée pour le moment",
+    custom_item: "Sur Mesure (Personnalisé)",
+    doors: "Portes",
+    windows: "Fenêtres",
+    others: "Autres",
+    login_success: "Connexion réussie",
+    login_error: "Identifiants incorrects",
+    json_success_exp: "Fichier JSON exporté avec succès!",
+    json_success_imp: "Données importées avec succès!",
+    json_invalid: "Fichier JSON invalide",
+    inv_saved: "Facture enregistrée avec succès sur Firebase!"
+  }
+};
+
+function toggleLanguage() {
+  currentLang = currentLang === 'ar' ? 'fr' : 'ar';
+  document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+  document.getElementById('langToggleBtn').textContent = currentLang === 'ar' ? '🌐 Français' : '🌐 العربية';
+  
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (i18n[currentLang][key]) el.textContent = i18n[currentLang][key];
+  });
+
+  renderPresetVisualCards();
+  renderInvoices();
+  drawItemDiagram();
+  if (document.getElementById('profits').classList.contains('active')) {
+    renderCharts();
+  }
+}
+
+/* NUMBER TO WORDS (TAFQEET AR / FR) */
+function numberToWordsAR(num) {
+  num = Math.round(num);
+  if (num === 0) return "صفر دينار";
+  const units = ["", "واحد", "اثنان", "ثلاثة", "أربعة", "خمسة", "ستة", "سبعة", "ثمانية", "تسعة"];
+  const tens = ["", "عشرة", "عشرون", "ثلاثون", "أربعون", "خمسون", "ستون", "سبعون", "ثمانون", "تسعون"];
+  const hundreds = ["", "مائة", "مائتان", "ثلاثمائة", "أربعمائة", "خمسمائة", "ستمائة", "سبعمائة", "ثمانمائة", "تسعمائة"];
+  
+  let result = "";
+  if (num >= 1000) {
+    let th = Math.floor(num / 1000);
+    result += (th === 1 ? "ألف" : th === 2 ? "ألفان" : numberToWordsAR(th) + " آلاف") + " ";
+    num %= 1000;
+  }
+  if (num >= 100) {
+    result += hundreds[Math.floor(num / 100)] + " ";
+    num %= 100;
+  }
+  if (num > 0) {
+    if (num <= 9) result += units[num] + " ";
+    else if (num >= 11 && num <= 19) {
+      const spec = ["أحد عشر", "اثنا عشر", "ثلاثة عشر", "أربعة عشر", "خمسة عشر", "ستة عشر", "سبعة عشر", "ثمانية عشر", "تسعة عشر"];
+      result += spec[num - 11] + " ";
+    } else {
+      let u = num % 10;
+      let t = Math.floor(num / 10);
+      if (u > 0) result += units[u] + " و ";
+      result += tens[t] + " ";
+    }
+  }
+  return result.trim() + " دينار";
+}
+
+function numberToWordsFR(num) {
+  num = Math.round(num);
+  if (num === 0) return "Zéro dinar";
+  const units = ["", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze", "treize", "quatorze", "quinze", "seize", "dix-sept", "dix-huit", "dix-neuf"];
+  const tens = ["", "", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix", "quatre-vingts", "quatre-vingt-dix"];
+  
+  let result = "";
+  if (num >= 1000) {
+    let th = Math.floor(num / 1000);
+    result += (th === 1 ? "mille" : numberToWordsFR(th) + " mille") + " ";
+    num %= 1000;
+  }
+  if (num >= 100) {
+    let h = Math.floor(num / 100);
+    result += (h === 1 ? "cent" : units[h] + " cents") + " ";
+    num %= 100;
+  }
+  if (num > 0) {
+    if (num < 20) result += units[num] + " ";
+    else {
+      let t = Math.floor(num / 10);
+      let u = num % 10;
+      result += tens[t] + (u > 0 ? "-" + units[u] : "") + " ";
+    }
+  }
+  return result.trim() + " dinars";
+}
+
+function getAmountInWords(amount) {
+  return currentLang === 'ar' ? numberToWordsAR(amount) : numberToWordsFR(amount);
+}
+
+/* FONT SWITCHER */
+function switchFont(fontKey) {
+  document.body.classList.remove('font-tajawal', 'font-cairo', 'font-lateef', 'font-amiri');
+  document.body.classList.add('font-' + fontKey);
+  document.querySelectorAll('.control-group button[id^="btn-font-"]').forEach(btn => btn.classList.remove('active'));
+  document.getElementById('btn-font-' + fontKey)?.classList.add('active');
+}
+
+/* SPLASH SCREEN & SYSTEM */
+let splashTimeout = setTimeout(closeSplashScreen, 3000);
+function closeSplashScreen() { clearTimeout(splashTimeout); document.getElementById('splashScreen').classList.add('hide'); }
+
+const STORAGE_KEY = 'blacksmith_db_v3';
+function defaultDB(){
+  return {
+    auth:{ username:'ramzi', password:'123456789' },
+    settings:{ laborRatePerM2:25, paintRatePerM2:8, transportRate:20, profitMargin:30, currency:'د.ت' },
+    materials:[
+      { id:'m1', name:'حديد مربع 14مم (Square 14mm)', weightPerMeter:1.2, pricePerKg:2.5 },
+      { id:'m2', name:'حديد مسطح 20×4مم (Flat 20x4)', weightPerMeter:0.63, pricePerKg:2.3 },
+      { id:'m3', name:'أنبوب مجوف 40×40مم (Tube 40x40)', weightPerMeter:1.8, pricePerKg:2.7 }
+    ],
+    presets:[
+      { id:'custom', name_ar:'مخصص (Sur Mesure)', name_fr:'Sur Mesure (Custom)', width:1.0, height:1.0, hBars:0, vBars:0, materialId:'m1' },
+      { id:'p1', name_ar:'باب حديد مزدوج', name_fr:'Porte Métallique Double', width:1.2, height:2.2, hBars:3, vBars:2, materialId:'m1' },
+      { id:'p2', name_ar:'شباك حديد عادي', name_fr:'Fenêtre Métallique Standard', width:1.2, height:1.2, hBars:2, vBars:2, materialId:'m2' }
+    ],
+    invoices:[]
+  };
+}
+
+function loadLocalDB(){
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : defaultDB();
+  } catch(e) { return defaultDB(); }
+}
+function saveLocalDB(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(DB)); }
+let DB = loadLocalDB();
+
+/* FIREBASE REALTIME SYNC */
+function syncWithFirebase() {
+  const syncBadge = document.getElementById('syncStatus');
+  db.collection('app_data').doc('main_store').onSnapshot((doc) => {
+    if (doc.exists) {
+      const data = doc.data();
+      if (data) {
+        DB = data;
+        saveLocalDB();
+        initUI();
+        syncBadge.textContent = "⚡ Firebase متصل بالتطبيق";
+        syncBadge.classList.add('online');
+      }
+    } else {
+      saveDBToFirebase();
+    }
+  }, (error) => {
+    console.warn("Firebase Sync Error / Offline Mode", error);
+    syncBadge.textContent = "📡 وضع غير متصل (مكتبي)";
+    syncBadge.classList.remove('online');
+  });
+}
+
+function saveDBToFirebase() {
+  saveLocalDB();
+  db.collection('app_data').doc('main_store').set(DB, { merge: true })
+    .then(() => console.log("Firebase sync successful"))
+    .catch((err) => console.error("Firebase sync error: ", err));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function checkLogin() {
+  const u = document.getElementById('loginUser').value;
+  const p = document.getElementById('loginPass').value;
+  if(u === DB.auth.username && p === DB.auth.password) {
+    document.getElementById('loginOverlay').style.display = 'none';
+    showToast(i18n[currentLang].login_success);
+  } else { alert(i18n[currentLang].login_error); }
+}
+
+function switchTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  document.querySelectorAll('.control-group button[id^="btn-theme-"]').forEach(btn => btn.classList.remove('active'));
+  document.getElementById('btn-theme-' + t)?.classList.add('active');
+  drawItemDiagram();
+}
+
+/* HIGH-REALISM 2D CANVAS ITEM DIAGRAM */
+function drawItemDiagram() {
+  const canvas = document.getElementById('itemDiagram');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  
+  const widthM = parseFloat(document.getElementById('pWidth').value) || 1;
+  const heightM = parseFloat(document.getElementById('pHeight').value) || 1;
+  const hBars = parseInt(document.getElementById('hBars').value) || 0;
+  const vBars = parseInt(document.getElementById('vBars').value) || 0;
+  const itemName = (document.getElementById('itemName').value || '').toLowerCase();
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const padding = 55;
+  const maxW = canvas.width - (padding * 2);
+  const maxH = canvas.height - (padding * 2);
+
+  const scale = Math.min(maxW / widthM, maxH / heightM);
+  const rectW = widthM * scale;
+  const rectH = heightM * scale;
+
+  const startX = (canvas.width - rectW) / 2;
+  const startY = (canvas.height - rectH) / 2;
+
+  const isDoor = itemName.includes('باب') || itemName.includes('porte') || itemName.includes('door');
+  const isWindow = itemName.includes('شباك') || itemName.includes('fenêtre') || itemName.includes('window');
+
+  // Background Glass Effect for Windows / Metallic panel for doors
+  if (isWindow) {
+    ctx.fillStyle = 'rgba(56, 189, 248, 0.12)';
+    ctx.fillRect(startX, startY, rectW, rectH);
+    
+    // Glass reflection diagonal line
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(startX + 10, startY + rectH - 10);
+    ctx.lineTo(startX + rectW - 10, startY + 10);
+    ctx.stroke();
+  } else if (isDoor) {
+    ctx.fillStyle = 'rgba(255, 122, 48, 0.08)';
+    ctx.fillRect(startX, startY, rectW, rectH);
+  }
+
+  // Outer Metal Profile Frame (Thick Outer Rim)
+  const frameThick = 8;
+  ctx.strokeStyle = '#2a2621';
+  ctx.lineWidth = frameThick + 4;
+  ctx.strokeRect(startX, startY, rectW, rectH);
+
+  ctx.strokeStyle = '#ff7a30';
+  ctx.lineWidth = frameThick;
+  ctx.strokeRect(startX, startY, rectW, rectH);
+
+  // Inner Frame Detail Line
+  ctx.strokeStyle = '#ffb066';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(startX + frameThick/2, startY + frameThick/2, rectW - frameThick, rectH - frameThick);
+
+  // Draw Horizontal Bars (With Thickness)
+  if(hBars > 0) {
+    const stepY = rectH / (hBars + 1);
+    for(let i = 1; i <= hBars; i++) {
+      const y = startY + (i * stepY);
+      ctx.fillStyle = '#ffb066';
+      ctx.fillRect(startX, y - 2, rectW, 4);
+      ctx.strokeStyle = '#ff7a30';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(startX, y - 2, rectW, 4);
+    }
+  }
+
+  // Draw Vertical Bars (With Thickness)
+  if(vBars > 0) {
+    const stepX = rectW / (vBars + 1);
+    for(let i = 1; i <= vBars; i++) {
+      const x = startX + (i * stepX);
+      ctx.fillStyle = '#ffb066';
+      ctx.fillRect(x - 2, startY, 4, rectH);
+      ctx.strokeStyle = '#ff7a30';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(x - 2, startY, 4, rectH);
+    }
+  }
+
+  // SPECIFIC REALISTIC FEATURES FOR DOORS & WINDOWS
+  if (isDoor) {
+    // Door Handle & Lock Plate
+    const handleY = startY + (rectH * 0.55);
+    const handleX = startX + rectW - 15;
+
+    ctx.fillStyle = '#a9a49a';
+    ctx.fillRect(handleX - 5, handleY - 12, 10, 24); // Lock Plate
+    ctx.fillStyle = '#ffb066';
+    ctx.fillRect(handleX - 12, handleY - 3, 12, 6);  // Handle Knob
+
+    // Hinges on the opposite side
+    ctx.fillStyle = '#7d786f';
+    ctx.fillRect(startX - 4, startY + 20, 5, 12);
+    ctx.fillRect(startX - 4, startY + rectH - 32, 5, 12);
+  } else if (isWindow) {
+    // Middle Opening Separator Line
+    ctx.strokeStyle = '#ffb066';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(startX + rectW / 2, startY);
+    ctx.lineTo(startX + rectW / 2, startY + rectH);
+    ctx.stroke();
+
+    // Window Latch / Lock in Middle
+    ctx.fillStyle = '#a9a49a';
+    ctx.fillRect(startX + rectW / 2 - 4, startY + rectH / 2 - 8, 8, 16);
+  }
+
+  // ELEGANT TECHNICAL DIMENSIONS & ARROWS
+  ctx.fillStyle = '#a9a49a';
+  ctx.strokeStyle = '#a9a49a';
+  ctx.font = 'bold 12px Tajawal, sans-serif';
+  ctx.textAlign = 'center';
+
+  // Top Dimension Line (Width)
+  const topY = startY - 18;
+  ctx.beginPath();
+  ctx.moveTo(startX, topY); ctx.lineTo(startX + rectW, topY);
+  ctx.moveTo(startX, topY - 4); ctx.lineTo(startX, topY + 4);
+  ctx.moveTo(startX + rectW, topY - 4); ctx.lineTo(startX + rectW, topY + 4);
+  ctx.lineWidth = 1.2;
+  ctx.stroke();
+
+  // Text Background Pill
+  ctx.fillStyle = '#171513';
+  ctx.fillRect(canvas.width / 2 - 25, topY - 10, 50, 16);
+  ctx.fillStyle = '#ffb066';
+  ctx.fillText(`${widthM.toFixed(2)} m`, canvas.width / 2, topY + 2);
+
+  // Left Dimension Line (Height)
+  const leftX = startX - 22;
+  ctx.beginPath();
+  ctx.moveTo(leftX, startY); ctx.lineTo(leftX, startY + rectH);
+  ctx.moveTo(leftX - 4, startY); ctx.lineTo(leftX + 4, startY);
+  ctx.moveTo(leftX - 4, startY + rectH); ctx.lineTo(leftX + 4, startY + rectH);
+  ctx.strokeStyle = '#a9a49a';
+  ctx.stroke();
+
+  ctx.save();
+  ctx.translate(leftX - 4, canvas.height / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillStyle = '#171513';
+  ctx.fillRect(-25, -8, 50, 16);
+  ctx.fillStyle = '#ffb066';
+  ctx.fillText(`${heightM.toFixed(2)} m`, 0, 4);
+  ctx.restore();
+}
+
+/* EXPORT FUNCTIONS (JSON) */
+function exportJSON() {
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(DB, null, 2));
+  const downloadAnchor = document.createElement('a');
+  downloadAnchor.setAttribute("href", dataStr);
+  downloadAnchor.setAttribute("download", `blacksmith_backup_${new Date().toISOString().split('T')[0]}.json`);
+  document.body.appendChild(downloadAnchor);
+  downloadAnchor.click();
+  downloadAnchor.remove();
+  showToast(i18n[currentLang].json_success_exp);
+}
+
+function importJSON(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const importedData = JSON.parse(e.target.result);
+      if (importedData && importedData.settings && importedData.invoices) {
+        DB = importedData;
+        saveDBToFirebase();
+        showToast(i18n[currentLang].json_success_imp);
+      } else { alert(i18n[currentLang].json_invalid); }
+    } catch (err) { alert(i18n[currentLang].json_invalid); }
+  };
+  reader.readAsText(file);
+}
+
+/* INVOICE TEMPLATE BUILDER */
+function buildInvoiceHTMLModel(inv) {
+  const isAr = currentLang === 'ar';
+  const dir = isAr ? 'rtl' : 'ltr';
+  const curr = isAr ? DB.settings.currency : 'TND';
+  const words = getAmountInWords(inv.sellPrice);
+
+  const t = {
+    title: isAr ? 'فاتورة' : 'INVOICE',
+    company: isAr ? 'ورشة الحدادة والتشكيل' : 'ATELIER DE FORGE & MÉTALLURGIE',
+    no: isAr ? 'رقم الفاتورة:' : 'NO.',
+    date: isAr ? 'التاريخ:' : 'DATE',
+    soldTo: isAr ? 'الزبون (تخصيص الفاتورة إلى):' : 'SOLD TO / CLIENT',
+    shipTo: isAr ? 'مكان التسليم / العنوان:' : 'SHIP TO / LIVRAISON',
+    po: isAr ? 'رقم الطلب' : 'P.O. #',
+    terms: isAr ? 'الشروط' : 'TERMS',
+    dateShipped: isAr ? 'تاريخ الشحن' : 'DATE SHIPPED',
+    shippedVia: isAr ? 'طريقة النقل' : 'SHIPPED VIA',
+    salesperson: isAr ? 'المسؤول' : 'SALESPERSON',
+    idCol: isAr ? 'الرمز' : 'ID #',
+    descCol: isAr ? 'الوصف والتفاصيل' : 'DESCRIPTION',
+    priceCol: isAr ? 'السعر' : 'PRICE',
+    qtyCol: isAr ? 'الكمية' : 'QTY.',
+    totalCol: isAr ? 'المجموع' : 'TOTAL',
+    subtotal: isAr ? 'المجموع الفرعي' : 'SUBTOTAL',
+    transport: isAr ? 'مصاريف النقل' : 'S&H / Transport',
+    total: isAr ? 'المبلغ الإجمالي' : 'TOTAL',
+    notes: isAr ? 'ملاحظات والمبلغ بالحروف:' : 'NOTES & ARRÊTÉ DE LA PRÉSENTE FACTURE:'
+  };
+
+  return `
+    <div style="direction: ${dir}; font-family: sans-serif; padding: 25px; background: #ffffff; color: #000000; max-width: 750px; margin: 0 auto; border: 1px solid #ccc;">
+      
+      <div style="text-align: center; margin-bottom: 10px;">
+        <h1 style="margin: 0; font-size: 28px; font-weight: 900; letter-spacing: 2px;">${t.title}</h1>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+        <div>
+          <h2 style="margin: 0; font-size: 17px; font-weight: bold;">${t.company}</h2>
+        </div>
+        <div style="text-align: ${isAr ? 'left' : 'right'}; font-size: 13px;">
+          <div><strong>${t.no}</strong> ${inv.id.replace('inv_', 'INV-')}</div>
+          <div style="margin-top: 4px;"><strong>${t.date}</strong> ${inv.date}</div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+        <div style="flex: 1; border: 2px solid #000;">
+          <div style="background: #000; color: #fff; padding: 4px 8px; font-size: 11px; font-weight: bold;">${t.soldTo}</div>
+          <div style="padding: 8px; font-size: 13px; min-height: 45px;">
+            ${inv.client}
+          </div>
+        </div>
+        <div style="flex: 1; border: 2px solid #000;">
+          <div style="background: #000; color: #fff; padding: 4px 8px; font-size: 11px; font-weight: bold;">${t.shipTo}</div>
+          <div style="padding: 8px; font-size: 13px; min-height: 45px;">
+            ${inv.client}
+          </div>
+        </div>
+      </div>
+
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 11px; text-align: center; border: 1px solid #000;">
+        <thead>
+          <tr style="background: #000; color: #fff;">
+            <th style="padding: 4px; border: 1px solid #000;">${t.po}</th>
+            <th style="padding: 4px; border: 1px solid #000;">${t.terms}</th>
+            <th style="padding: 4px; border: 1px solid #000;">${t.dateShipped}</th>
+            <th style="padding: 4px; border: 1px solid #000;">${t.shippedVia}</th>
+            <th style="padding: 4px; border: 1px solid #000;">${t.salesperson}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 4px; border: 1px solid #000;">#001</td>
+            <td style="padding: 4px; border: 1px solid #000;">Cash</td>
+            <td style="padding: 4px; border: 1px solid #000;">${inv.date}</td>
+            <td style="padding: 4px; border: 1px solid #000;">Camion</td>
+            <td style="padding: 4px; border: 1px solid #000;">Atelier</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 12px; border: 2px solid #000;">
+        <thead>
+          <tr style="background: #000; color: #fff; text-align: center;">
+            <th style="padding: 6px; border: 1px solid #000; width: 10%;">${t.idCol}</th>
+            <th style="padding: 6px; border: 1px solid #000; width: 50%;">${t.descCol}</th>
+            <th style="padding: 6px; border: 1px solid #000; width: 15%;">${t.priceCol}</th>
+            <th style="padding: 6px; border: 1px solid #000; width: 10%;">${t.qtyCol}</th>
+            <th style="padding: 6px; border: 1px solid #000; width: 15%;">${t.totalCol}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 8px; border: 1px solid #000; text-align: center;">01</td>
+            <td style="padding: 8px; border: 1px solid #000;">${inv.itemName}</td>
+            <td style="padding: 8px; border: 1px solid #000; text-align: center;">${inv.sellPrice.toFixed(2)}</td>
+            <td style="padding: 8px; border: 1px solid #000; text-align: center;">1</td>
+            <td style="padding: 8px; border: 1px solid #000; text-align: center;">${inv.sellPrice.toFixed(2)}</td>
+          </tr>
+          ${Array(3).fill(0).map(() => `
+            <tr>
+              <td style="padding: 8px; border: 1px solid #000;">&nbsp;</td>
+              <td style="padding: 8px; border: 1px solid #000;"></td>
+              <td style="padding: 8px; border: 1px solid #000;"></td>
+              <td style="padding: 8px; border: 1px solid #000;"></td>
+              <td style="padding: 8px; border: 1px solid #000;"></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+
+      <div style="display: flex; gap: 10px; align-items: flex-start;">
+        <div style="flex: 1.5; border: 2px solid #000;">
+          <div style="background: #000; color: #fff; padding: 4px 8px; font-size: 11px; font-weight: bold;">${t.notes}</div>
+          <div style="padding: 8px; font-size: 13px; font-weight: bold; min-height: 60px; color: #111;">
+            ${words}
+          </div>
+        </div>
+
+        <div style="flex: 1; border: 2px solid #000;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+            <tr>
+              <td style="padding: 6px; border-bottom: 1px solid #000; font-weight: bold;">${t.subtotal}</td>
+              <td style="padding: 6px; border-bottom: 1px solid #000; text-align: ${isAr ? 'left' : 'right'};">${inv.sellPrice.toFixed(2)}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px; border-bottom: 1px solid #000; font-weight: bold;">${t.transport}</td>
+              <td style="padding: 6px; border-bottom: 1px solid #000; text-align: ${isAr ? 'left' : 'right'};">${DB.settings.transportRate.toFixed(2)}</td>
+            </tr>
+            <tr style="background: #f1f5f9;">
+              <td style="padding: 6px; font-weight: 900; font-size: 14px;">${t.total}</td>
+              <td style="padding: 6px; font-weight: 900; font-size: 14px; text-align: ${isAr ? 'left' : 'right'};">${(inv.sellPrice + DB.settings.transportRate).toFixed(2)} ${curr}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  `;
+}
+
+function exportInvoicePDF(id) {
+  const inv = DB.invoices.find(i => i.id === id);
+  if (!inv) return;
+  const element = document.createElement('div');
+  element.innerHTML = buildInvoiceHTMLModel(inv);
+  html2pdf().from(element).save(`${inv.client}_invoice.pdf`);
+}
+
+function exportInvoiceHTML(id) {
+  const inv = DB.invoices.find(i => i.id === id);
+  if (!inv) return;
+  const htmlContent = `
+    <!DOCTYPE html><html lang="${currentLang}" dir="${currentLang === 'ar' ? 'rtl' : 'ltr'}"><head><meta charset="UTF-8"><title>Invoice ${inv.client}</title></head>
+    <body style="background:#e2e8f0; padding:20px;">
+      ${buildInvoiceHTMLModel(inv)}
+    </body></html>
+  `;
+  const blob = new Blob([htmlContent], { type: 'text/html' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `Invoice_${inv.client}.html`;
+  a.click();
+}
+
+function exportInvoiceJPG(id) {
+  const inv = DB.invoices.find(i => i.id === id);
+  if (!inv) return;
+  const element = document.createElement('div');
+  element.style.position = 'absolute';
+  element.style.left = '-9999px';
+  element.style.width = '750px';
+  element.innerHTML = buildInvoiceHTMLModel(inv);
+  document.body.appendChild(element);
+  html2canvas(element).then(canvas => {
+    const a = document.createElement('a');
+    a.href = canvas.toDataURL('image/jpeg');
+    a.download = `Invoice_${inv.client}.jpg`;
+    a.click();
+    document.body.removeChild(element);
+  });
+}
+
+/* PROJECT LOGIC */
+let calculatedTotalCost = 0;
+function calcProject(){
+  const width = parseFloat(document.getElementById('pWidth').value) || 0;
+  const height = parseFloat(document.getElementById('pHeight').value) || 0;
+  const hBars = parseInt(document.getElementById('hBars').value) || 0;
+  const vBars = parseInt(document.getElementById('vBars').value) || 0;
+  const matId = document.getElementById('materialSelect').value;
+  const material = DB.materials.find(m=>m.id===matId);
+
+  const area = width * height;
+  const totalLength = 2*(width+height) + (hBars*width) + (vBars*height);
+  const weight = material ? totalLength * material.weightPerMeter : 0;
+  const materialCost = material ? weight * material.pricePerKg : 0;
+  const laborCost = area * DB.settings.laborRatePerM2;
+  const paintCost = area * DB.settings.paintRatePerM2;
+  const transportCost = DB.settings.transportRate || 0;
+
+  calculatedTotalCost = materialCost + laborCost + paintCost + transportCost;
+
+  document.getElementById('pvLength').textContent = totalLength.toFixed(2) + ' m';
+  document.getElementById('pvWeight').textContent = weight.toFixed(2) + ' kg';
+  document.getElementById('pvMaterial').textContent = materialCost.toFixed(2) + ' ' + DB.settings.currency;
+  document.getElementById('pvTransport').textContent = transportCost.toFixed(2) + ' ' + DB.settings.currency;
+  document.getElementById('pvTotal').textContent = calculatedTotalCost.toFixed(2) + ' ' + DB.settings.currency;
+
+  const margin = parseFloat(document.getElementById('marginInput').value) || 0;
+  const sellPrice = calculatedTotalCost * (1 + margin / 100);
+  document.getElementById('sellPriceInput').value = sellPrice.toFixed(2);
+
+  drawItemDiagram();
+}
+
+function saveInvoice() {
+  const inv = {
+    id: 'inv_' + Date.now(),
+    itemName: document.getElementById('itemName').value || (currentLang==='ar'?'مشروع مخصص':'Ouvrage Sur Mesure'),
+    client: document.getElementById('clientName').value || (currentLang==='ar'?'زبون عام':'Client Général'),
+    date: document.getElementById('orderDate').value || new Date().toISOString().split('T')[0],
+    sellPrice: parseFloat(document.getElementById('sellPriceInput').value) || 0
+  };
+  DB.invoices.push(inv);
+  saveDBToFirebase();
+  showToast(i18n[currentLang].inv_saved);
+  renderInvoices();
+}
+
+function renderInvoices() {
+  const list = document.getElementById('invoiceList');
+  if(!DB.invoices || DB.invoices.length === 0) {
+    list.innerHTML = `<div style="text-align:center; color:var(--steel);">${i18n[currentLang].no_invoices}</div>`;
+    return;
+  }
+  list.innerHTML = DB.invoices.map(i => `
+    <div style="background:var(--input-bg); padding:12px; margin-bottom:8px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+      <div><strong>${i.itemName}</strong> - ${i.client} <br><small style="color:var(--steel);">${i.date}</small></div>
+      <div style="display:flex; gap:6px; align-items:center;">
+        <span style="color:var(--ember-bright); font-weight:bold; margin-left:8px;">${i.sellPrice.toFixed(2)} ${DB.settings.currency}</span>
+        <button class="btn-export" onclick="exportInvoicePDF('${i.id}')">PDF</button>
+        <button class="btn-export" onclick="exportInvoiceJPG('${i.id}')">JPG</button>
+        <button class="btn-export" onclick="exportInvoiceHTML('${i.id}')">HTML</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* CALCULATOR */
+function appendCalc(v) { document.getElementById('calcDisplay').value += v; }
+function clearCalc() { document.getElementById('calcDisplay').value = ''; }
+function runCalc() { try { document.getElementById('calcDisplay').value = eval(document.getElementById('calcDisplay').value); } catch(e){} }
+function switchCalcMode(m) {
+  document.getElementById('calcNormalMode').style.display = m === 'normal' ? 'block' : 'none';
+  document.getElementById('calcBlacksmithMode').style.display = m === 'blacksmith' ? 'block' : 'none';
+}
+function calcMiterAngle() {
+  const s = parseInt(document.getElementById('polySides').value) || 4;
+  document.getElementById('miterResult').value = (360 / (s * 2)).toFixed(1) + '°';
+}
+function calcSpacing() {
+  const w = parseFloat(document.getElementById('totalGapWidth').value) || 0;
+  const t = parseFloat(document.getElementById('barThickness').value) || 0;
+  const n = parseInt(document.getElementById('numBars').value) || 0;
+  const res = (w - (t * n)) / (n + 1);
+  document.getElementById('spacingResult').textContent = res > 0 ? res.toFixed(2) + ' cm' : '—';
+}
+
+function saveSettingsLive() {
+  DB.auth.username = document.getElementById('authUsername').value;
+  DB.auth.password = document.getElementById('authPassword').value;
+  DB.settings.laborRatePerM2 = parseFloat(document.getElementById('laborRate').value) || 0;
+  DB.settings.paintRatePerM2 = parseFloat(document.getElementById('paintRate').value) || 0;
+  DB.settings.transportRate = parseFloat(document.getElementById('transportRate').value) || 0;
+  DB.settings.currency = document.getElementById('currencyLabel').value || 'د.ت';
+  saveDBToFirebase();
+  calcProject();
+}
+
+function renderPresetVisualCards() {
+  const container = document.getElementById('presetVisualGrid');
+  if(!DB.presets) return;
+  container.innerHTML = DB.presets.map(p => {
+    const title = currentLang === 'ar' ? p.name_ar : p.name_fr;
+    return `
+      <div class="visual-card" id="card-${p.id}" onclick="selectPreset('${p.id}')">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM12 4v16M4 12h16"/></svg>
+        <span>${title}</span>
+      </div>
+    `;
+  }).join('');
+}
+
+function selectPreset(id) {
+  document.querySelectorAll('.visual-card').forEach(c => c.classList.remove('active'));
+  document.getElementById('card-' + id)?.classList.add('active');
+
+  const p = DB.presets.find(x => x.id === id);
+  if (p) {
+    document.getElementById('itemName').value = currentLang === 'ar' ? p.name_ar : p.name_fr;
+    document.getElementById('pWidth').value = p.width;
+    document.getElementById('pHeight').value = p.height;
+    document.getElementById('hBars').value = p.hBars;
+    document.getElementById('vBars').value = p.vBars;
+    if(p.materialId) document.getElementById('materialSelect').value = p.materialId;
+  }
+  calcProject();
+}
+
+/* CHARTS */
+let typeChartInstance = null, profitChartInstance = null;
+function renderCharts() {
+  const invoices = DB.invoices || [];
+  const doors = invoices.filter(i => i.itemName.includes('باب') || i.itemName.toLowerCase().includes('porte')).length;
+  const windows = invoices.filter(i => i.itemName.includes('شباك') || i.itemName.toLowerCase().includes('fenêtre')).length;
+  const others = Math.max(0, invoices.length - (doors + windows));
+
+  const ctxType = document.getElementById('typeChart')?.getContext('2d');
+  if (ctxType) {
+    if (typeChartInstance) typeChartInstance.destroy();
+    typeChartInstance = new Chart(ctxType, {
+      type: 'doughnut',
+      data: {
+        labels: [i18n[currentLang].doors, i18n[currentLang].windows, i18n[currentLang].others],
+        datasets: [{ data: [doors || 1, windows || 1, others || 1], backgroundColor: ['#ff7a30', '#38bdf8', '#a855f7'] }]
+      },
+      options: { responsive: true, maintainAspectRatio: false }
+    });
+  }
+
+  const ctxProfit = document.getElementById('profitChart')?.getContext('2d');
+  if (ctxProfit) {
+    if (profitChartInstance) profitChartInstance.destroy();
+    const recentInvoices = invoices.slice(-5);
+    const labels = recentInvoices.length ? recentInvoices.map(i => i.itemName) : ['Ex 1', 'Ex 2'];
+    const data = recentInvoices.length ? recentInvoices.map(i => i.sellPrice) : [100, 200];
+
+    profitChartInstance = new Chart(ctxProfit, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{ label: i18n[currentLang].sell_price, data: data, backgroundColor: '#ffb066' }]
+      },
+      options: { responsive: true, maintainAspectRatio: false }
+    });
+  }
+}
+
+function showPage(id, event){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(event) event.currentTarget.classList.add('active');
+  if(id === 'profits') setTimeout(renderCharts, 100);
+  if(id === 'invoices') renderInvoices();
+}
+
+function initUI(){
+  const matSel = document.getElementById('materialSelect');
+  if (DB.materials) {
+    matSel.innerHTML = DB.materials.map(m => `<option value="${m.id}">${m.name}</option>`).join('');
+  }
+  
+  if (DB.auth) {
+    document.getElementById('authUsername').value = DB.auth.username;
+    document.getElementById('authPassword').value = DB.auth.password;
+  }
+  if (DB.settings) {
+    document.getElementById('laborRate').value = DB.settings.laborRatePerM2;
+    document.getElementById('paintRate').value = DB.settings.paintRatePerM2;
+    document.getElementById('transportRate').value = DB.settings.transportRate || 0;
+    document.getElementById('currencyLabel').value = DB.settings.currency;
+  }
+
+  renderPresetVisualCards();
+  selectPreset('p1');
+  renderInvoices();
+  calcMiterAngle();
+  calcSpacing();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initUI();
+  syncWithFirebase();
+});
+</script>
+</body>
+</html>
